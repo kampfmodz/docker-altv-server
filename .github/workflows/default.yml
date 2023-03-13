@@ -24,17 +24,23 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
         name: checkout
-      - name: install deps
-        run: sudo apt-get update && sudo apt-get install -y jq wget
-      - name: set script permissions
-        run: chmod +x ./scripts/ci-push.sh ./scripts/image-build.sh ./scripts/image-push.sh  ./scripts/getVersion.sh
-      - name: login to DockerHub
-        run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
-      - name: build dev
-        run: ./scripts/ci-push.sh $IMAGE dev $(./scripts/getVersion.sh dev)
-      - name: build rc
-        run: ./scripts/ci-push.sh $IMAGE rc $(./scripts/getVersion.sh rc)
-      - name: build release
-        run: ./scripts/ci-push.sh $IMAGE release $(./scripts/getVersion.sh release)
-      - name: logout from DockerHub
-        run: docker logout
+
+      - name: Build Image
+        id: build-image
+        uses: redhat-actions/buildah-build@v2
+        with:
+          image: altv-server
+          tags: latest ${{ github.sha }}
+          containerfiles: |
+            ./Dockerfile
+
+      - name: Push To ${{ vars.REGISTRY_URL }}
+        id: push-to-registry
+        uses: redhat-actions/push-to-registry@v2
+        with:
+          image: ${{ steps.build-image.outputs.image }}
+          tags: ${{ steps.build-image.outputs.tags }}
+          registry: ${{ vars.REGISTRY_URL }}/kampfmodz
+          username: a
+          password: b
+

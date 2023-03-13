@@ -40,7 +40,7 @@ if [ "$INSTALL_CSHARP_MODULE" = "true" ]; then
     dpkg -i packages-microsoft-prod.deb
     rm -f packages-microsoft-prod.deb
     apt-get update
-    apt-get install dotnet-runtime-6.0 -y
+    apt-get install dotnet-runtime-7.0 -y
     # install altV module
     wget --no-cache -q -O /opt/altv/modules/libcsharp-module.so https://cdn.altv.mp/coreclr-module/${BRANCH}/x64_linux/modules/libcsharp-module.so
     mkdir -p /usr/share/dotnet/host/fxr/
@@ -48,10 +48,10 @@ if [ "$INSTALL_CSHARP_MODULE" = "true" ]; then
     cat <<EOF >/opt/altv/AltV.Net.Host.runtimeconfig.json
 {
   "runtimeOptions": {
-    "tfm": "net6",
+    "tfm": "net7",
     "framework": {
       "name": "Microsoft.NETCore.App",
-      "version": "6.0.0"
+      "version": "7.0.0"
     }
   }
 }

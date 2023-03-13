@@ -41,6 +41,7 @@ if [ "$INSTALL_CSHARP_MODULE" = "true" ]; then
     rm -f packages-microsoft-prod.deb
     apt-get update
     apt-get install dotnet-runtime-7.0 -y
+    apt-get install libnode72 -y
     # install altV module
     wget --no-cache -q -O /opt/altv/modules/libcsharp-module.so https://cdn.altv.mp/coreclr-module/${BRANCH}/x64_linux/modules/libcsharp-module.so
     mkdir -p /usr/share/dotnet/host/fxr/

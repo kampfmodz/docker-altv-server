@@ -13,7 +13,7 @@ INSTALL_CSHARP_MODULE=${INSTALL_CSHARP_MODULE:-"true"}
 LIBNODE_VERSION=${LIBNODE_VERSION:-"102"}
 
 apt-get update
-apt-get install -y wget gnupg libatomic1 libc-bin apt-transport-https libnode72
+apt-get install -y wget gnupg libatomic1 libc-bin apt-transport-https libnode72 libatomic1
 
 # setup default altv-server files
 mkdir -p /opt/altv/modules /opt/altv/resources /opt/altv/data
@@ -28,7 +28,7 @@ chmod +x /opt/altv/altv-server /root/entrypoint.sh
 
 # setup optional js module
 if [ "$INSTALL_JS_MODULE" = "true" ]; then
-    apt-get install libnode72 -y
+    apt-get install libnode72 libatomic1 -y
     mkdir -p /opt/altv/modules/js-module/
     wget --no-cache -q -O /opt/altv/modules/js-module/libnode.so.${LIBNODE_VERSION} https://cdn.altv.mp/js-module/${BRANCH}/x64_linux/modules/js-module/libnode.so.${LIBNODE_VERSION}
     wget --no-cache -q -O /opt/altv/modules/js-module/libjs-module.so https://cdn.altv.mp/js-module/${BRANCH}/x64_linux/modules/js-module/libjs-module.so
